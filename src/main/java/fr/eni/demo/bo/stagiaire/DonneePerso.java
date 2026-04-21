@@ -25,4 +25,7 @@ public class DonneePerso {
 
     @Column(name = "PRENOM", length = 50, nullable = false)
     private String prenom;
+
+    @OneToOne(mappedBy = "donneePerso")
+    private EtudiantENI etudiantENI;
 }

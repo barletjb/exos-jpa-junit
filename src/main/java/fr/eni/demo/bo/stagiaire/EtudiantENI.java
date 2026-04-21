@@ -1,10 +1,7 @@
 package fr.eni.demo.bo.stagiaire;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -25,4 +22,9 @@ public class EtudiantENI {
 
     @Column(name = "EMAIL", length = 50, nullable = false)
     private String email;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "donnee_perso_id")
+    private DonneePerso donneePerso;
+
 }
