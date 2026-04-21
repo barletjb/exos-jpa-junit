@@ -27,6 +27,6 @@ public class DonneePerso {
     private String prenom;
 
     @ToString.Exclude
-    @OneToOne(mappedBy = "donneePerso")
+    @OneToOne(mappedBy = "donneePerso", cascade = CascadeType.ALL, orphanRemoval = true)
     private EtudiantENI etudiantENI;
 }
