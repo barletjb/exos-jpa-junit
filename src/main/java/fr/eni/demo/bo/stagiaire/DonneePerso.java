@@ -26,6 +26,7 @@ public class DonneePerso {
     @Column(name = "PRENOM", length = 50, nullable = false)
     private String prenom;
 
+    @ToString.Exclude
     @OneToOne(mappedBy = "donneePerso")
     private EtudiantENI etudiantENI;
 }
