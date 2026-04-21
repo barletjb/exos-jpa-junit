@@ -85,5 +85,43 @@ public class AssoOneToOneTest {
         Assertions.assertThat(adresseDB).isNull();
     }
 
+    @Test
+    void test_orphan(){
+
+        Adresse adresse = Adresse.builder()
+                .rue("RueTest")
+                .codePostal("44000")
+                .ville("NANTES")
+                .build();
+
+        Employe employe = Employe.builder()
+                .nom("TEST")
+                .prenom("test")
+                .email("test@gmail.com")
+                .immatriculation("TEST01")
+                .numDom("0123456789")
+                .numPortable("0623456789")
+                .adresse(adresse)
+                .build();
+
+        entityManager.persist(employe);
+        entityManager.flush();
+
+        log.info(employe.toString());
+
+        Integer idEmploye = employe.getId();
+        Integer idAdresse = employe.getAdresse().getId();
+
+        employe.setAdresse(null);
+
+        employeRepository.delete(employe);
+
+        Employe employeDB = entityManager.find(Employe.class, idEmploye);
+        Adresse adresseDB = entityManager.find(Adresse.class, idAdresse);
+
+        Assertions.assertThat(employeDB).isNull();
+        Assertions.assertThat(adresseDB).isNull();
+    }
+
 
 }

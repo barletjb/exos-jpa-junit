@@ -38,7 +38,7 @@ public class Employe {
     @Column(name = "EMPLOYEE_CELL_PHONE_NUMBER", length = 12, nullable = true)
     private String numPortable;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ADRESSE_ID")
     private Adresse adresse;
 
