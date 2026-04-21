@@ -22,7 +22,7 @@ class AssoOneToOneBiTest {
     private DonneePersoRepository donneePersoRepository;
 
     @Autowired
-    private EntityManager em;
+    private EntityManager entityManager;
 
     @Test
     void test_save() {
@@ -47,9 +47,171 @@ class AssoOneToOneBiTest {
     }
 
     @Test
-    void test_delete() {
+    void test_saveDonnePerso() {
+
+        EtudiantENI etudiant = EtudiantENI.builder()
+                .email("etudiant@ecole.fr")
+                .immatriculation("IMMAT1")
+                .build();
+
+        DonneePerso donneePerso = DonneePerso.builder()
+                .nom("TEST")
+                .prenom("Jean-Baptiste")
+                .build();
+
+        etudiant.setDonneePerso(donneePerso);
+        donneePerso.setEtudiantENI(etudiant);
+
+        DonneePerso donneePersoDB = donneePersoRepository.save(donneePerso);
+
+        log.info(donneePersoDB.toString());
+
+        Assertions.assertThat(donneePersoDB.getId()).isGreaterThan(0);
+
+        EtudiantENI etudiantENIDB = entityManager.find(EtudiantENI.class, "IMMAT1");
+
+        Assertions.assertThat(etudiantENIDB).isNotNull();
 
     }
+
+    @Test
+    void test_deleteEtudiantENI() {
+        EtudiantENI etudiant = EtudiantENI.builder()
+                .email("etudiant@ecole.fr")
+                .immatriculation("IMMAT1")
+                .build();
+
+        DonneePerso donneePerso = DonneePerso.builder()
+                .nom("TEST")
+                .prenom("Jean-Baptiste")
+                .build();
+
+        etudiant.setDonneePerso(donneePerso);
+        donneePerso.setEtudiantENI(etudiant);
+
+        entityManager.persist(etudiant);
+        entityManager.flush();
+
+        Integer idDonneePerso = etudiant.getDonneePerso().getId();
+
+        log.info(etudiant.toString());
+
+        etudiantEniRepository.delete(etudiant);
+
+        EtudiantENI etudiantDB = entityManager.find(EtudiantENI.class,"IMMAT1");
+
+        Assertions.assertThat(etudiantDB).isNull();
+
+        DonneePerso donneePersoDB = entityManager.find(DonneePerso.class, idDonneePerso);
+
+        Assertions.assertThat(donneePersoDB).isNull();
+
+    }
+
+    @Test
+    void test_deleteDonneePerso() {
+        EtudiantENI etudiant = EtudiantENI.builder()
+                .email("etudiant@ecole.fr")
+                .immatriculation("IMMAT1")
+                .build();
+
+        DonneePerso donneePerso = DonneePerso.builder()
+                .nom("TEST")
+                .prenom("Jean-Baptiste")
+                .build();
+
+        etudiant.setDonneePerso(donneePerso);
+        donneePerso.setEtudiantENI(etudiant);
+
+        entityManager.persist(etudiant);
+        entityManager.flush();
+
+        Integer idDonneePerso = etudiant.getDonneePerso().getId();
+
+        log.info(etudiant.toString());
+
+        donneePersoRepository.delete(donneePerso);
+
+        EtudiantENI etudiantDB = entityManager.find(EtudiantENI.class,"IMMAT1");
+
+        Assertions.assertThat(etudiantDB).isNull();
+
+        DonneePerso donneePersoDB = entityManager.find(DonneePerso.class, idDonneePerso);
+
+        Assertions.assertThat(donneePersoDB).isNull();
+
+    }
+
+    @Test
+    void test_orphanRemovalEtudiantENI() {
+        EtudiantENI etudiant = EtudiantENI.builder()
+                .email("etudiant@ecole.fr")
+                .immatriculation("IMMAT1")
+                .build();
+
+        DonneePerso donneePerso = DonneePerso.builder()
+                .nom("TEST")
+                .prenom("Jean-Baptiste")
+                .build();
+
+        etudiant.setDonneePerso(donneePerso);
+        donneePerso.setEtudiantENI(etudiant);
+
+        entityManager.persist(etudiant);
+        entityManager.flush();
+
+        Integer idDonneePerso = etudiant.getDonneePerso().getId();
+
+        log.info(etudiant.toString());
+
+        etudiant.setDonneePerso(null);
+        etudiantEniRepository.delete(etudiant);
+
+        EtudiantENI etudiantDB = entityManager.find(EtudiantENI.class,"IMMAT1");
+
+        Assertions.assertThat(etudiantDB).isNull();
+
+        DonneePerso donneePersoDB = entityManager.find(DonneePerso.class, idDonneePerso);
+
+        Assertions.assertThat(donneePersoDB).isNull();
+
+    }
+
+    @Test
+    void test_orphanRemovalDonneePerso() {
+        EtudiantENI etudiant = EtudiantENI.builder()
+                .email("etudiant@ecole.fr")
+                .immatriculation("IMMAT1")
+                .build();
+
+        DonneePerso donneePerso = DonneePerso.builder()
+                .nom("TEST")
+                .prenom("Jean-Baptiste")
+                .build();
+
+        etudiant.setDonneePerso(donneePerso);
+        donneePerso.setEtudiantENI(etudiant);
+
+        entityManager.persist(etudiant);
+        entityManager.flush();
+
+        Integer idDonneePerso = etudiant.getDonneePerso().getId();
+
+        log.info(etudiant.toString());
+
+        donneePerso.setEtudiantENI(null);
+        donneePersoRepository.delete(donneePerso);
+
+        EtudiantENI etudiantDB = entityManager.find(EtudiantENI.class,"IMMAT1");
+
+        Assertions.assertThat(etudiantDB).isNull();
+
+        DonneePerso donneePersoDB = entityManager.find(DonneePerso.class, idDonneePerso);
+
+        Assertions.assertThat(donneePersoDB).isNull();
+
+    }
+
 
 }
 
