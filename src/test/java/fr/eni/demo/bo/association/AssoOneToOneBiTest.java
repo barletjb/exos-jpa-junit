@@ -32,7 +32,7 @@ class AssoOneToOneBiTest {
                 .build();
 
         DonneePerso donneePerso = DonneePerso.builder()
-                .nom("CACA")
+                .nom("TEST")
                 .prenom("Jean-Baptiste")
                 .build();
 
