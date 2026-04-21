@@ -38,6 +38,7 @@ public class AssoOneToOneTest {
                 .immatriculation("TEST01")
                 .numDom("0123456789")
                 .numPortable("0623456789")
+                .adresse(adresse)
                 .build();
 
         Employe employeDB = employeRepository.save(employe);
