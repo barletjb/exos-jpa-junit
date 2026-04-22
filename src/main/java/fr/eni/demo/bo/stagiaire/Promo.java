@@ -29,5 +29,6 @@ public class Promo {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true ,fetch = FetchType.LAZY)
     @JoinColumn(name = "CLASS_ID")
-    private @Builder.Default List<EtudiantENI> etudiantENIS = new ArrayList<>();
+    @Builder.Default
+    private List<EtudiantENI> etudiantENIS = new ArrayList<>();
 }
