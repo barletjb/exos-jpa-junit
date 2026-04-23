@@ -2,6 +2,7 @@ package fr.eni.demo.bo;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
@@ -9,15 +10,15 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "Employee")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Employee_ID")
-    @EqualsAndHashCode.Include
+    @Column(name = "EMPLOYEE_ID")
     private Integer id;
 
     @Column(name = "EMPLOYEE_LASTNAME", length = 50, nullable = false)
@@ -29,6 +30,7 @@ public class Employe {
     @Column(name = "EMPLOYEE_EMAIL", length = 255, nullable = false, unique = true)
     private String email;
 
+    @EqualsAndHashCode.Include
     @Column(name = "EMPLOYEE_IMMATRICULATION", length = 50, nullable = false, unique = true)
     private String immatriculation;
 
