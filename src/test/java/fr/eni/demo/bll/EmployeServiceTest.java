@@ -12,6 +12,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
@@ -27,11 +28,11 @@ class EmployeServiceTest {
     void test_employeNull() {
 
         Assertions.assertThrows(RuntimeException.class,
-                ()-> employeService.ajouter(null));
+                () -> employeService.ajouter(null));
     }
 
     @Test
-    void test_ajout_employe_immat_existe(){
+    void test_ajout_employe_immat_existe() {
 
         String immatriculation = "TEST01";
 
@@ -42,19 +43,19 @@ class EmployeServiceTest {
                 .immatriculation(immatriculation)
                 .build();
 
-       // Mockito.when(
-          //      employeRepository.findByImmatriculation(immatriculation))
-         //       .thenReturn(Optional.of(employe));
+        Mockito.when(
+                        employeRepository.findByImmatriculation(immatriculation))
+                .thenReturn(Optional.of(employe));
 
-        RuntimeException e =  Assertions.assertThrows(RuntimeException.class,
-                ()-> employeService.ajouter(employe));
+        RuntimeException e = Assertions.assertThrows(RuntimeException.class,
+                () -> employeService.ajouter(employe));
 
         Assertions.assertEquals("L'immatriculation doit être unique", e.getMessage());
 
     }
 
     @Test
-    void test_chargerTousLesEmployes_nonVide(){
+    void test_chargerTousLesEmployes_nonVide() {
         Employe employe1 = Employe.builder()
                 .nom("TEST1")
                 .prenom("test1")
@@ -74,7 +75,7 @@ class EmployeServiceTest {
         listeEmployes.add(employe2);
 
         Mockito.when(
-                employeRepository.findAll())
+                        employeRepository.findAll())
                 .thenReturn(listeEmployes);
 
         List<Employe> employeList = employeService.chargerLesEmployes();
